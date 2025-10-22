@@ -68,4 +68,4 @@ O projeto utiliza **Apache Maven** como ferramenta de build e gerenciamento de d
 
 5. **Teste os endpoints**
 
-Você pode testar os endpoints usando ferramentas como Postman ou cURL.
+Você pode testar os endpoints usando o Swagger na página principal.
