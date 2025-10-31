@@ -61,11 +61,65 @@ O projeto utiliza **Apache Maven** como ferramenta de build e gerenciamento de d
    ```bash
      mvn clean
      ```
-4. **Acesse a API**
+   
+### Opção 2: usando Docker
 
-   A API estará disponível em `http://localhost:8080`.
+Pré-requisitos:
+- Docker instalado
+- Docker Compose instalado
+
+Executar apenas a API:
+1. Pull da imagem do Docker Hub:
+   ```bash
+   docker pull shyuu7/devcalc:latest
+   ```
+2. Executar o container:
+   ```bash
+   docker run -d -p 8080:8080 shyuu7/devcalc:latest
+   ```
+   
+Executar ambiente completo com Docker Compose:
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/Shyuu7/devcalc-api.git
+   cd devcalc-api
+   ```
+2. Iniciar os serviços:
+   ```bash
+   docker-compose up -d
+   ```
+3. Verificar os containers em execução:
+   ```bash
+   docker ps
+   ```
+4. Parar os serviços:
+   ```bash
+   docker-compose down
+   ```
+5. Parar e remover todos os containers, redes e volumes:
+   ```bash
+   docker-compose down -v
+   ```
 
 
-5. **Teste os endpoints**
+### **Acesse a API**
 
-Você pode testar os endpoints usando o Swagger na página principal.
+Independente do método de execução escolhido, a API estará disponível em:
+
+URL: http://localhost:8080
+
+Swagger UI: http://localhost:8080/swagger-ui/index.html
+
+
+### **Teste os endpoints**
+
+Você pode testar os endpoints usando:
+- Swagger UI - Interface web disponível na página principal
+- Curl - Comandos HTTP via terminal
+- Postman - Cliente REST gráfico
+- Container de teste - Para verificar conectividade interna
+
+Exemplo de comando curl para somar dois números:
+```bash
+curl -X GET "http://localhost:8080/api/calc/sum?a=5&b=3" -H "accept: application/json"
+```
