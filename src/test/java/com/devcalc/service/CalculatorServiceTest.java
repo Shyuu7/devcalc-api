@@ -21,7 +21,7 @@ class CalculatorServiceTest {
         CalculatorModel result = calculatorService.adicao(a, b);
         assertEquals(50, result.getNumeroA());
         assertEquals(5, result.getNumeroB());
-        assertEquals(55, result.getResultado());
+        assertEquals(60, result.getResultado());
         assertEquals("adição", result.getOperacao());
     }
 
