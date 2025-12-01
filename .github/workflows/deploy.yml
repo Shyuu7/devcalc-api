@@ -1,0 +1,75 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+    env:
+      DEPLOY_ENVIRONMENT: dev
+      SERVER_URL: https://dev.devcalc-api.com
+      DEPLOY_TIMEOUT: 300
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Deploy
+        env:
+          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          echo "Iniciando deploy para $DEPLOY_ENVIRONMENT..."
+          echo "Servidor: $SERVER_URL"
+          mvn clean package -DskipTests
+          echo "Deploy em $DEPLOY_ENVIRONMENT concluído!"
+
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: deploy-dev
+    env:
+      DEPLOY_ENVIRONMENT: staging
+      SERVER_URL: https://staging.devcalc-api.com
+      DEPLOY_TIMEOUT: 600
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Deploy
+        env:
+          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          echo "Deploy para $DEPLOY_ENVIRONMENT iniciado..."
+          echo "Deploy em staging concluído!"
+
+  deploy-prod:
+    runs-on: ubuntu-latest
+    needs: deploy-staging
+    env:
+      DEPLOY_ENVIRONMENT: prod
+      SERVER_URL: https://prod.devcalc-api.com
+      DEPLOY_TIMEOUT: 900
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Deploy
+        env:
+          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        run: |
+          echo "Deploy para $DEPLOY_ENVIRONMENT iniciado..."
+          echo "Deploy em produção concluído!"
