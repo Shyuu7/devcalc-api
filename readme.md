@@ -66,6 +66,13 @@ Esta seção documenta todos os workflows de CI/CD implementados no projeto usan
 **Trigger:** Push na branch `main`  
 **Função:** Demonstra o uso seguro de secrets do GitHub, utilizando a variável `API_KEY` de forma protegida.
 
+#### 8. Deploy Multi-ambiente
+[![Deploy](https://github.com/Shyuu7/devcalc-api/actions/workflows/deploy.yml/badge.svg)](https://github.com/Shyuu7/devcalc-api/actions/workflows/deploy.yml)
+
+**Arquivo:** `deploy.yml`
+**Trigger:** Push na branch `main`
+**Função:** Pipeline de deploy sequencial em múltiplos ambientes (dev → staging → prod), usando variáveis de ambiente específicas para cada estágio e mascaramento de credenciais sensíveis.
+
 ### Pipeline de CI/CD
 
 O projeto implementa uma pipeline completa de CI/CD que:
