@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - main
+env:
+  ACTIONS_STEP_DEBUG: true
+  ACTIONS_RUNNER_DEBUG: true
+
 jobs:
   maven-build:
     runs-on: ubuntu-latest
@@ -16,3 +20,12 @@ jobs:
             distribution: 'temurin'
         - name: Build with Maven
           run:  mvn clean install -DskipTests
+        - name: Debug - Exibir informações detalhadas
+          run: |
+            echo "::debug::Listando arquivos no diretório atual"
+            ls -la
+            echo "::debug::Exibindo informações do Maven"
+            mvn --version
+            echo "::debug::Verificando variáveis de ambiente Java"
+            echo "JAVA_HOME: $JAVA_HOME"
+            echo "PATH: $PATH"
