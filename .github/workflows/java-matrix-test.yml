@@ -1,0 +1,23 @@
+name: java-matrix-test
+on:
+  push:
+    branches: [ main ]
+jobs:
+  test-matrix:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version: [11, 17]
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v6
+
+      - name: Configurar JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v5
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: 'temurin'
+
+      - name: Exibir versão do Java
+        run: java -version
