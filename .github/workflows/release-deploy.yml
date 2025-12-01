@@ -1,0 +1,11 @@
+name: release-deploy.yml
+on:
+  release:
+    types:
+      - published
+jobs:
+  release-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy para produção
+        run: echo "Deploy realizado com sucesso"
