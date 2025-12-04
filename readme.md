@@ -9,7 +9,134 @@ DevCalc é uma API REST desenvolvida em Java com Spring Boot que oferece operaç
 - **Java**
 - **Spring Boot**
 - **Maven** (ferramenta de build)
-- **Spring Web MVC** (para criar a API REST)
+- **Spring Web MVC** (para criar API REST)
+
+## Ferramenta de Build
+
+O projeto utiliza **Apache Maven** como ferramenta de build e gerenciamento de dependências. Maven facilita a compilação, empacotamento e execução do projeto através de comandos simples.
+
+## Como Executar Localmente
+
+### Pré-requisitos
+
+- Java 11 ou superior instalado
+- Maven instalado (ou usar o wrapper incluído)
+
+### Passos para execução
+#### Os comandos aqui aplicam-se se você estiver usando Maven diretamente. Se estiver usando o wrapper do Maven (mvnw), substitua `mvn` por `./mvnw`.
+
+1. **Clone o repositório**
+   ```bash
+   git clone <https://github.com/Shyuu7/devcalc-api.git>
+   cd DevCalc
+
+2. **Compile o projeto**
+
+   ```bash
+   mvn clean install
+   ```
+3. **Execute a aplicação**
+    ```bash
+    mvn spring-boot:run
+    ```
+
+4. **Outros comandos úteis:**
+    - Para compilar o projeto sem executar os testes:
+     ```bash
+      mvn clean install -DskipTests
+     ```
+    - Para executar os testes:
+     ```bash
+      mvn test
+     ```
+    - Para empacotar a aplicação em um arquivo JAR:
+     ```bash
+      mvn package
+     ```
+    - Para executar o JAR gerado:
+   ```bash
+     java -jar target/devcalc-0.0.1-SNAPSHOT.jar
+     ```
+    - Para limpar os arquivos compilados:
+   ```bash
+     mvn clean
+     ```
+
+## TP1 - Docker e Docker Compose
+Esta seção documenta o processo de containerização da aplicação DevCalc utilizando Docker e Docker Compose.
+
+### Pré-requisitos:
+- Docker instalado
+- Docker Compose instalado
+
+Executar apenas a API:
+1. Pull da imagem do Docker Hub:
+   ```bash
+   docker pull shyuu7/devcalc:latest
+   ```
+2. Executar o container:
+   ```bash
+   docker run -d -p 8080:8080 shyuu7/devcalc:latest
+   ```
+
+Executar ambiente completo com Docker Compose:
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/Shyuu7/devcalc-api.git
+   cd devcalc-api
+   ```
+2. Iniciar os serviços:
+   ```bash
+   docker-compose up -d
+   ```
+3. Verificar os containers em execução:
+   ```bash
+   docker ps
+   ```
+4. Parar os serviços:
+   ```bash
+   docker-compose down
+   ```
+5. Parar e remover todos os containers, redes e volumes:
+   ```bash
+   docker-compose down -v
+   ```
+
+## TP2 - Kubernetes
+Esta seção documenta o processo de deploy da aplicação DevCalc em um cluster Kubernetes.
+
+### Pré-requisitos
+- Kubernetes cluster configurado
+- kubectl instalado e configurado
+- Namespace `tp2` criado no cluster
+
+### Instruções de Deploy
+
+1. **Criar o namespace (se não existir):**
+```bash
+kubectl create namespace tp2
+```
+2. **Aplicar o arquivo de configuração do Kubernetes:**
+```bash
+kubectl apply -f k8s/devcalc-deployment.yaml -n tp2
+```
+
+3. **Aplicar o serviço para expor a aplicação:**
+```bash
+kubectl apply -f k8s/devcalc-service.yaml -n tp2
+```
+
+4. **Verificar o status do deployment:**
+```bash
+kubectl get deployments -n tp2
+kubectl get pods -n tp2
+kubectl get services -n tp2
+```
+
+5. **Acessar a aplicação (A aplicação estará disponível no NodePort 30003):**
+```bash
+http://<node-ip>:30003
+```
 
 ## TP3 - CI/CD com GitHub Actions
 
@@ -84,105 +211,17 @@ O projeto implementa uma pipeline completa de CI/CD que:
 Todos os workflows podem ser visualizados na aba [Actions](https://github.com/Shyuu7/devcalc-api/actions) do repositório.
 
 
-## Ferramenta de Build
-
-O projeto utiliza **Apache Maven** como ferramenta de build e gerenciamento de dependências. Maven facilita a compilação, empacotamento e execução do projeto através de comandos simples.
-
-## Como Executar Localmente
-
-### Pré-requisitos
-
-- Java 11 ou superior instalado
-- Maven instalado (ou usar o wrapper incluído)
-
-### Passos para execução
-#### Os comandos aqui aplicam-se se você estiver usando Maven diretamente. Se estiver usando o wrapper do Maven (mvnw), substitua `mvn` por `./mvnw`.
-
-1. **Clone o repositório**
-   ```bash
-   git clone <https://github.com/Shyuu7/devcalc-api.git>
-   cd DevCalc
-
-2. **Compile o projeto**
-
-   ```bash
-   mvn clean install
-   ```
-3. **Execute a aplicação**
-    ```bash
-    mvn spring-boot:run
-    ```
-   
-4. **Outros comandos úteis:**
-    - Para compilar o projeto sem executar os testes:
-     ```bash
-      mvn clean install -DskipTests
-     ```
-    - Para executar os testes:
-     ```bash
-      mvn test
-     ```
-    - Para empacotar a aplicação em um arquivo JAR:
-     ```bash
-      mvn package
-     ```
-   - Para executar o JAR gerado:
-   ```bash
-     java -jar target/devcalc-0.0.1-SNAPSHOT.jar
-     ```
-   - Para limpar os arquivos compilados:
-   ```bash
-     mvn clean
-     ```
-   
-### Opção 2: usando Docker
-
-Pré-requisitos:
-- Docker instalado
-- Docker Compose instalado
-
-Executar apenas a API:
-1. Pull da imagem do Docker Hub:
-   ```bash
-   docker pull shyuu7/devcalc:latest
-   ```
-2. Executar o container:
-   ```bash
-   docker run -d -p 8080:8080 shyuu7/devcalc:latest
-   ```
-   
-Executar ambiente completo com Docker Compose:
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/Shyuu7/devcalc-api.git
-   cd devcalc-api
-   ```
-2. Iniciar os serviços:
-   ```bash
-   docker-compose up -d
-   ```
-3. Verificar os containers em execução:
-   ```bash
-   docker ps
-   ```
-4. Parar os serviços:
-   ```bash
-   docker-compose down
-   ```
-5. Parar e remover todos os containers, redes e volumes:
-   ```bash
-   docker-compose down -v
-   ```
-
-
 ### **Acesse a API**
 
-Independente do método de execução escolhido, a API estará disponível em:
+A URL de acesso varia dependendo do método de execução:
 
-URL: http://localhost:8080
+#### Execução Local ou Docker:
+- URL: http://localhost:8080
+- Swagger UI: http://localhost:8080/swagger-ui/index.html
 
-Swagger UI: http://localhost:8080/swagger-ui/index.html
-
+#### Execução com Kubernetes:
+- URL: http://\<node-ip\>:30003
+- Swagger UI: http://\<node-ip\>:30003/swagger-ui/index.html
 
 ### **Teste os endpoints**
 
@@ -192,7 +231,7 @@ Você pode testar os endpoints usando:
 - Postman - Cliente REST gráfico
 - Container de teste - Para verificar conectividade interna
 
-Exemplo de comando curl para somar dois números:
+#### Exemplo com execução local/Docker:
 ```bash
 curl -X GET "http://localhost:8080/api/calc/sum?a=5&b=3" -H "accept: application/json"
 ```
